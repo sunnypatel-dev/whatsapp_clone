@@ -50,7 +50,7 @@ const QR_Section = () => {
         </div>
       </div>
       <div id="qr_" className="p-4">
-        <img src="/qr.jfif" />
+        <img src="./qr.jfif" />
       </div>
     </div>
   );

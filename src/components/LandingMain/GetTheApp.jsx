@@ -61,7 +61,7 @@ const GetTheApp = () => {
         <span>
           <button
             id="get_the_app_btn"
-            className="font-semibold text-sm outline-none"
+            className="font-semibold text-sm outline-none "
           >
             Get the app
           </button>

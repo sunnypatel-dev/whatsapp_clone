@@ -10,7 +10,7 @@ const Tutorial = () => {
       >
         Need help to get started?
       </h4>
-      <img className="w-6/12" src="/wc.png" />
+      <img className="w-6/12" src="./wc.png" />
     </div>
   );
 };
