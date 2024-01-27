@@ -1,7 +1,23 @@
 import React from "react";
+import { useEffect, useState } from "react";
+import Contacts from "../../item";
 
 const ChatWindow = () => {
-  const count = 100;
+  const [users, setUsers] = useState([]);
+  const [currentContact, setCurrentContact] = useState([]);
+  const [sentMessages, setSentMessages] = useState([]);
+  const [recievedMessages, setRecievedMessages] = useState([]);
+
+  useEffect(() => {
+    // Assuming 'Contacts' is an array of users from 'item.js'
+    setUsers(Contacts.users);
+  }, []); // Run once on component mount
+
+  const handleCurrentProfile = (user) => {
+    setCurrentContact(user);
+    // setSentMessages(currentContact.sentMessages);
+    setRecievedMessages(currentContact.recievedMessages);
+  };
 
   return (
     <>
@@ -295,24 +311,21 @@ const ChatWindow = () => {
             {/* // Contact_list  */}
             <div id="Contact_List">
               <div id="c1" className="list">
-                {Array.from({ length: count }).map((_, index) => (
-                  <ul key={index} className="contact_item">
+                {users.map((user, index) => (
+                  <ul
+                    onClick={() => handleCurrentProfile(user)}
+                    key={index}
+                    className="contact_item"
+                  >
                     <li>
                       {/* profile image */}
                       <span class="">
-                        <img
-                          src="https://media-del1-2.cdn.whatsapp.net/v/t61.24694-24/406119714_716679137087214_734735468050059566_n.jpg?stp=dst-jpg_s96x96&amp;ccb=11-4&amp;oh=01_AdRNtesdFfa6I7QobihabwCblWNwwjqPtjXLXIyLzxd1xA&amp;oe=65C23A3A&amp;_nc_sid=e6ed6c&amp;_nc_cat=103"
-                          alt=""
-                          draggable="false"
-                          class="g0rxnol2 f804f6gw ln8gz9je ppled2lx gfz4du6o r7fjleex g9p5wyxn i0tg5vk9 aoogvgrq o2zu3hjb jpthtbts lyqpd7li bs7a17vp csshhazd _11JPr"
-                          tabIndex="-1"
-                          style={{ visibility: "visible" }}
-                        />
+                        <img src={user.profileImg} />
                       </span>
                     </li>
                     <li id="content">
                       <span className="title_time">
-                        <h2>PrashantAdvait Foundation</h2>
+                        <h2>{user.username}</h2>
                         <h4 className="text-xs font-semibold">14:56</h4>
                       </span>
                       <span className="message">Arun: Ok</span>
@@ -383,16 +396,9 @@ const ChatWindow = () => {
             {/* //contact user option  */}
             <div className="contact_user_option">
               <div className="flex items-center pl-3 gap-3">
-                <img
-                  src="https://media-del1-2.cdn.whatsapp.net/v/t61.24694-24/406119714_716679137087214_734735468050059566_n.jpg?stp=dst-jpg_s96x96&amp;ccb=11-4&amp;oh=01_AdRNtesdFfa6I7QobihabwCblWNwwjqPtjXLXIyLzxd1xA&amp;oe=65C23A3A&amp;_nc_sid=e6ed6c&amp;_nc_cat=103"
-                  alt=""
-                  draggable="false"
-                  class="g0rxnol2 f804f6gw ln8gz9je ppled2lx gfz4du6o r7fjleex g9p5wyxn i0tg5vk9 aoogvgrq o2zu3hjb jpthtbts lyqpd7li bs7a17vp csshhazd _11JPr"
-                  tabIndex="-1"
-                  style={{ visibility: "visible" }}
-                />
+                <img src={currentContact.profileImg} />
                 <span>
-                  <h2 className="cursor-pointer">Acharya Prashant</h2>
+                  <h2 className="cursor-pointer">{currentContact.username}</h2>
                   <p className="cursor-pointer text-xs space-x-5 text-slate-500">
                     Business Account
                   </p>
@@ -491,7 +497,43 @@ const ChatWindow = () => {
             {/* chat field */}
 
             <div id="Main_chat_field" className="">
-              <div> </div>
+              {currentContact.receivedMessages &&
+                currentContact.receivedMessages.map((message, index) => (
+                  <div key={index} className="message_container reciever_side">
+                    <div id="recievedMessage" className="">
+                      <h2>{message.content}</h2>
+                      <span>
+                        {new Date(message.timestamp).toLocaleTimeString([], {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+
+              {currentContact.sentMessages &&
+                currentContact.sentMessages.map((message, index) => (
+                  <div key={index} className="message_container sender_side">
+                    <div id="sentMessage" className="">
+                      <h2>{message.content}</h2>
+                      <span>10:59</span>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 16 15"
+                        width="17"
+                        height="15"
+                        aria-label="read"
+                        class="chat__msg-status-icon chat__msg-status-icon--blue"
+                      >
+                        <path
+                          fill="currentColor"
+                          d="M15.01 3.316l-.478-.372a.365.365 0 0 0-.51.063L8.666 9.879a.32.32 0 0 1-.484.033l-.358-.325a.319.319 0 0 0-.484.032l-.378.483a.418.418 0 0 0 .036.541l1.32 1.266c.143.14.361.125.484-.033l6.272-8.048a.366.366 0 0 0-.064-.512zm-4.1 0l-.478-.372a.365.365 0 0 0-.51.063L4.566 9.879a.32.32 0 0 1-.484.033L1.891 7.769a.366.366 0 0 0-.515.006l-.423.433a.364.364 0 0 0 .006.514l3.258 3.185c.143.14.361.125.484-.033l6.272-8.048a.365.365 0 0 0-.063-.51z"
+                        ></path>
+                      </svg>
+                    </div>
+                  </div>
+                ))}
             </div>
 
             <div id="Typing_area" className="">
