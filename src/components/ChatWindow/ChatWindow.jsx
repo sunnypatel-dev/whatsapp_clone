@@ -5,19 +5,16 @@ import Contacts from "../../item";
 const ChatWindow = () => {
   const [users, setUsers] = useState([]);
   const [currentContact, setCurrentContact] = useState([]);
-  const [sentMessages, setSentMessages] = useState([]);
-  const [recievedMessages, setRecievedMessages] = useState([]);
 
   useEffect(() => {
-    // Assuming 'Contacts' is an array of users from 'item.js'
     setUsers(Contacts.users);
-  }, []); // Run once on component mount
+  }, []);
 
   const handleCurrentProfile = (user) => {
     setCurrentContact(user);
-    // setSentMessages(currentContact.sentMessages);
-    setRecievedMessages(currentContact.recievedMessages);
   };
+
+  // console.log(lastMessage.content);
 
   return (
     <>
@@ -311,27 +308,80 @@ const ChatWindow = () => {
             {/* // Contact_list  */}
             <div id="Contact_List">
               <div id="c1" className="list">
-                {users.map((user, index) => (
-                  <ul
-                    onClick={() => handleCurrentProfile(user)}
-                    key={index}
-                    className="contact_item"
-                  >
-                    <li>
-                      {/* profile image */}
-                      <span class="">
-                        <img src={user.profileImg} />
-                      </span>
-                    </li>
-                    <li id="content">
-                      <span className="title_time">
-                        <h2>{user.username}</h2>
-                        <h4 className="text-xs font-semibold">14:56</h4>
-                      </span>
-                      <span className="message">Arun: Ok</span>
-                    </li>
-                  </ul>
-                ))}
+                {users.map((user, index) => {
+                  // Sort the messages array for each user before rendering
+                  const sortedMessages = user.messages
+                    ? [...user.messages].sort(
+                        (a, b) => new Date(b.timestamp) - new Date(a.timestamp)
+                      )
+                    : [];
+
+                  return (
+                    <ul
+                      onClick={() => handleCurrentProfile(user)}
+                      key={index}
+                      className="contact_item"
+                    >
+                      <li>
+                        {/* profile image */}
+                        <span className="">
+                          <img src={user.profileImg} alt={user.username} />
+                        </span>
+                      </li>
+                      <li id="content">
+                        <span className="title_time">
+                          <h2>{user.username}</h2>
+                          {sortedMessages.length > 0 ? (
+                            <>
+                              <h4 className="text-xs font-semibold">
+                                {new Date(
+                                  sortedMessages[0].timestamp
+                                ).toLocaleTimeString([], {
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                })}
+                              </h4>
+                            </>
+                          ) : (
+                            <p>empty</p>
+                          )}
+                        </span>
+                        <span className="message_notification">
+                          {sortedMessages.length > 0 ? (
+                            <>
+                              <div>
+                                <h2>{sortedMessages[0].content}</h2>
+                              </div>
+                            </>
+                          ) : (
+                            <p>No messages available</p>
+                          )}
+                          <div id="notificatoin_">
+                            <span data-icon="down" class="">
+                              <svg
+                                viewBox="0 0 19 20"
+                                height="20"
+                                width="19"
+                                preserveAspectRatio="xMidYMid meet"
+                                class=""
+                                version="1.1"
+                                x="0px"
+                                y="0px"
+                              >
+                                <title>down</title>
+                                <path
+                                  fill="currentColor"
+                                  d="M3.8,6.7l5.7,5.7l5.7-5.7l1.6,1.6l-7.3,7.2L2.2,8.3L3.8,6.7z"
+                                ></path>
+                              </svg>
+                            </span>
+                          </div>
+                        </span>
+                      </li>
+                    </ul>
+                  );
+                })}
+
                 <ul className="contact_item">
                   <li>
                     {/* profile image */}
@@ -400,7 +450,7 @@ const ChatWindow = () => {
                 <span>
                   <h2 className="cursor-pointer">{currentContact.username}</h2>
                   <p className="cursor-pointer text-xs space-x-5 text-slate-500">
-                    Business Account
+                    click here for contact info
                   </p>
                 </span>
               </div>
@@ -497,43 +547,91 @@ const ChatWindow = () => {
             {/* chat field */}
 
             <div id="Main_chat_field" className="">
-              {currentContact.receivedMessages &&
-                currentContact.receivedMessages.map((message, index) => (
-                  <div key={index} className="message_container reciever_side">
-                    <div id="recievedMessage" className="">
-                      <h2>{message.content}</h2>
-                      <span>
-                        {new Date(message.timestamp).toLocaleTimeString([], {
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        })}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-
-              {currentContact.sentMessages &&
-                currentContact.sentMessages.map((message, index) => (
-                  <div key={index} className="message_container sender_side">
-                    <div id="sentMessage" className="">
-                      <h2>{message.content}</h2>
-                      <span>10:59</span>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 16 15"
-                        width="17"
-                        height="15"
-                        aria-label="read"
-                        class="chat__msg-status-icon chat__msg-status-icon--blue"
-                      >
-                        <path
-                          fill="currentColor"
-                          d="M15.01 3.316l-.478-.372a.365.365 0 0 0-.51.063L8.666 9.879a.32.32 0 0 1-.484.033l-.358-.325a.319.319 0 0 0-.484.032l-.378.483a.418.418 0 0 0 .036.541l1.32 1.266c.143.14.361.125.484-.033l6.272-8.048a.366.366 0 0 0-.064-.512zm-4.1 0l-.478-.372a.365.365 0 0 0-.51.063L4.566 9.879a.32.32 0 0 1-.484.033L1.891 7.769a.366.366 0 0 0-.515.006l-.423.433a.364.364 0 0 0 .006.514l3.258 3.185c.143.14.361.125.484-.033l6.272-8.048a.365.365 0 0 0-.063-.51z"
-                        ></path>
-                      </svg>
-                    </div>
-                  </div>
-                ))}
+              {currentContact.messages &&
+                currentContact.messages
+                  .sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp))
+                  .map((message) => {
+                    if (
+                      message.transactionType === "sent" &&
+                      message.messagesType === "text"
+                    ) {
+                      return (
+                        <div
+                          key={message.id}
+                          className="message_container sender_side"
+                        >
+                          <div id="sentMessage" className="">
+                            <h2>{message.content}</h2>
+                            <span>
+                              {new Date(message.timestamp).toLocaleTimeString(
+                                [],
+                                {
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                }
+                              )}
+                            </span>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 16 15"
+                              width="17"
+                              height="15"
+                              aria-label="read"
+                              class="chat__msg-status-icon chat__msg-status-icon--blue"
+                            >
+                              <path
+                                fill="currentColor"
+                                d="M15.01 3.316l-.478-.372a.365.365 0 0 0-.51.063L8.666 9.879a.32.32 0 0 1-.484.033l-.358-.325a.319.319 0 0 0-.484.032l-.378.483a.418.418 0 0 0 .036.541l1.32 1.266c.143.14.361.125.484-.033l6.272-8.048a.366.366 0 0 0-.064-.512zm-4.1 0l-.478-.372a.365.365 0 0 0-.51.063L4.566 9.879a.32.32 0 0 1-.484.033L1.891 7.769a.366.366 0 0 0-.515.006l-.423.433a.364.364 0 0 0 .006.514l3.258 3.185c.143.14.361.125.484-.033l6.272-8.048a.365.365 0 0 0-.063-.51z"
+                              ></path>
+                            </svg>
+                          </div>
+                        </div>
+                      );
+                    } else if (
+                      message.transactionType === "sent" &&
+                      message.messagesType === "img"
+                    ) {
+                      return (
+                        <div className="message_container sender_side">
+                          <div id="sentImg">
+                            <img src={message.src} alt="img" />
+                            <span>
+                              <h4>{message.caption}</h4>
+                              <p>
+                                {new Date(message.timestamp).toLocaleTimeString(
+                                  [],
+                                  {
+                                    hour: "2-digit",
+                                    minute: "2-digit",
+                                  }
+                                )}
+                              </p>
+                            </span>
+                          </div>
+                        </div>
+                      );
+                    } else if (message.transactionType === "received") {
+                      return (
+                        <div
+                          key={message.id}
+                          className="message_container reciever_side"
+                        >
+                          <div id="recievedMessage" className="">
+                            <h2>{message.content}</h2>
+                            <span>
+                              {new Date(message.timestamp).toLocaleTimeString(
+                                [],
+                                {
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                }
+                              )}
+                            </span>
+                          </div>
+                        </div>
+                      );
+                    }
+                  })}
             </div>
 
             <div id="Typing_area" className="">
@@ -580,6 +678,29 @@ const ChatWindow = () => {
                   </span>
                   <input type="text" placeholder="Type a message"></input>
                 </li>
+
+                {/* <li>
+                  <span data-icon="send" class="">
+                    <svg
+                      viewBox="0 0 24 24"
+                      height="24"
+                      width="24"
+                      preserveAspectRatio="xMidYMid meet"
+                      class=""
+                      version="1.1"
+                      x="0px"
+                      y="0px"
+                      enable-background="new 0 0 24 24"
+                    >
+                      <title>send</title>
+                      <path
+                        fill="currentColor"
+                        d="M1.101,21.757L23.8,12.028L1.101,2.3l0.011,7.912l13.623,1.816L1.112,13.845 L1.101,21.757z"
+                      ></path>
+                    </svg>
+                  </span>
+                </li>
+                 */}
                 <li>
                   <span data-icon="ptt" class="">
                     <svg
