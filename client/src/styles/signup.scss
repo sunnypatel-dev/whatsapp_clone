@@ -1,0 +1,20 @@
+.bg-whatsapp-gradient {
+  background: linear-gradient(135deg, #128c7e, #25d366);
+
+  input{
+    outline:none;
+  }
+  input:focus{
+    border-color: #128c7e;
+  }
+}
+
+#bg_button{
+  background-color: #25d366; // WhatsApp green color
+  // Add more styles as needed
+} 
+
+#bg_button:hover{
+
+  background-color: #18a94d; // WhatsApp green color
+}
