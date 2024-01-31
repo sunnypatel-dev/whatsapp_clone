@@ -5,12 +5,13 @@ const ChatSpace = () => {
 
   return (
     <div id="Main_chat_field" className="">
-      {currentClickedContactChat.messages
+      {currentClickedContactChat != null &&
+      currentClickedContactChat.messages != null
         ? [...currentClickedContactChat.messages]
             .sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp))
             .map((message) => {
               // Ensure a unique key for each dynamically generated component
-              const messageKey = `${message.transactionType}_${message.id}`;
+              const messageKey = `${message.transactionType}_${message._id}`;
 
               if (
                 message.transactionType === "sent" &&
@@ -90,7 +91,7 @@ const ChatSpace = () => {
               // It's good practice to provide a default return
               return null;
             })
-        : ""}
+        : null}
     </div>
   );
 };

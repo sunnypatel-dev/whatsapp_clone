@@ -10,11 +10,11 @@ const ChatAreaHead = () => {
   return (
     <div className="contact_user_option">
       <div className="flex items-center pl-3 gap-3">
-        {currentClickedContactChat.user?.profilePicture && (
+        {currentClickedContactChat != null && (
           <img src={currentClickedContactChat.user.profilePicture} />
         )}
         <span>
-          {currentClickedContactChat.user?.username && (
+          {currentClickedContactChat != null && (
             <h2 className="cursor-pointer">
               {currentClickedContactChat.user?.username}
             </h2>

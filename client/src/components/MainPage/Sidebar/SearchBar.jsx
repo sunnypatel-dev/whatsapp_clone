@@ -1,6 +1,55 @@
-import React from "react";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { searchedUsersInfo } from "../../../redux/user/userSlice";
+import { useEffect } from "react";
+import { useState } from "react";
 
 const SearchBar = () => {
+  const dispatch = useDispatch();
+  const { mateFound } = useSelector((state) => state.user);
+
+  // store will not store search entity when page is refreshed
+
+  useEffect(() => {
+    dispatch(searchedUsersInfo(null));
+  }, []);
+
+  // when you search and found mate and click on it , all other searches get disappeared
+
+  useEffect(() => {
+    if (mateFound === true) {
+      dispatch(searchedUsersInfo(null));
+      document.getElementById("searchMate").value = "";
+    }
+  });
+
+  const handleSearch = async (searchTerm) => {
+    // setInputVal(searchTerm);
+
+    if (searchTerm == "") {
+      dispatch(searchedUsersInfo(null));
+    }
+
+    if (searchTerm.trim() !== "") {
+      const url = `http://localhost:8000/api/user/search-mate?searchTerm=${encodeURIComponent(
+        searchTerm.trim()
+      )}`;
+      // console.log(url);
+
+      try {
+        const response = await axios.get(url);
+
+        dispatch(searchedUsersInfo(response.data));
+
+        console.log(response.data);
+      } catch (error) {
+        console.error("Error searching users:", error);
+      }
+    } else {
+      // Handle the case when the search term is empty
+    }
+  };
+
   return (
     <div id="search_contacts">
       <div id="input_container">
@@ -36,8 +85,10 @@ const SearchBar = () => {
         </span>
 
         <input
+          onChange={(e) => handleSearch(e.target.value)}
           className="font-normal text-sm"
           type="text"
+          id="searchMate"
           placeholder="Search or start a new chat"
         ></input>
         <span id="close_icon" data-icon="x-alt" class="">

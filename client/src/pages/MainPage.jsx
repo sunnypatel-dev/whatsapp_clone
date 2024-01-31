@@ -1,7 +1,6 @@
 import React from "react";
 import GreenWrapper from "../components/MainPage/GreenWrapper";
-import SidebarMain from "../components/MainPage/Sidebar/SidebarMain";
-import ChatAreaMain from "../components/MainPage/ChatArea/ChatAreaMain";
+import Index from "../components/MainPage/Index";
 
 const MainPage = () => {
   return (
@@ -9,8 +8,7 @@ const MainPage = () => {
       <GreenWrapper />
       <div id="chatwindow" className="">
         <div id="chat-cols">
-          <SidebarMain />
-          <ChatAreaMain />
+          <Index />
         </div>
       </div>
     </>

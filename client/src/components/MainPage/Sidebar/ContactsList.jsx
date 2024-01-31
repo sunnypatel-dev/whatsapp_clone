@@ -2,21 +2,70 @@ import React from "react";
 import { useEffect, useState } from "react";
 import Contacts from "../../../item";
 import { useDispatch, useSelector } from "react-redux";
-import { currentClickedContactChat } from "../../../redux/user/userSlice";
+import {
+  currentClickedContactChat,
+  setMateFound,
+} from "../../../redux/user/userSlice";
+import { signInUserTotalContactsData } from "../../../redux/user/userSlice";
 
 const ContactsList = () => {
   const dispatch = useDispatch();
 
-  const { currentUserTotalContactsData } = useSelector((state) => state.user);
+  const { currentUserTotalContactsData, searchedUsersInfo } = useSelector(
+    (state) => state.user
+  );
 
   const handleProfileChat = (chat) => {
     dispatch(currentClickedContactChat(chat));
+    console.log(chat);
+  };
+
+  const handleSearchedUser = (user) => {
+    dispatch(setMateFound(true));
+
+    const isNewObject = !currentUserTotalContactsData.some(
+      (item) => item.user.email === user.email
+    );
+
+    dispatch(currentClickedContactChat({ user: user, messages: null }));
+
+    if (isNewObject) {
+      dispatch(
+        signInUserTotalContactsData([
+          ...currentUserTotalContactsData,
+          { user: user, messages: null },
+        ])
+      );
+    }
+
+    setTimeout(() => {
+      dispatch(setMateFound(false));
+    }, 0);
+
+    console.log("done");
   };
 
   return (
     <div id="Contact_List">
       <div id="c1" className="list">
-        {currentUserTotalContactsData.length >= 0 &&
+        {searchedUsersInfo &&
+          searchedUsersInfo.map((user, index) => {
+            return (
+              <ul onClick={() => handleSearchedUser(user)} key={index}>
+                <li>
+                  <span>
+                    <img src={user.profilePicture} alt={user.username} />
+                  </span>
+                </li>
+                <li>
+                  <h2>{user.username}</h2>
+                  {/* <h4>good</h4> */}
+                </li>
+              </ul>
+            );
+          })}
+
+        {currentUserTotalContactsData.length > 0 &&
           currentUserTotalContactsData.map((chat, index) => {
             const sortedMessages = chat.messages
               ? [...chat.messages].sort(
