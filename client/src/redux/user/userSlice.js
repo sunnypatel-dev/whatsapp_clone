@@ -22,7 +22,7 @@ const userSlice = createSlice({
     signInUserTotalContactsData: (state, action) => {
       state.currentUserTotalContactsData = action.payload;
     },
-    currentClickedContactChat: (state, action) => {
+    setCurrentClickedContactChat: (state, action) => {
       state.currentClickedContactChat = action.payload;
     },
     searchedUsersInfo: (state, action) => {
@@ -37,7 +37,7 @@ const userSlice = createSlice({
 export const {
   signInUserInfo,
   signInUserTotalContactsData,
-  currentClickedContactChat,
+  setCurrentClickedContactChat,
   signInFailure,
   searchedUsersInfo,
   setMateFound,

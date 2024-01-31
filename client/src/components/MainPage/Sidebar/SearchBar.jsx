@@ -2,10 +2,10 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { searchedUsersInfo } from "../../../redux/user/userSlice";
 import { useEffect } from "react";
-import { useState } from "react";
 
 const SearchBar = () => {
   const dispatch = useDispatch();
+
   const { mateFound } = useSelector((state) => state.user);
 
   // store will not store search entity when page is refreshed
@@ -24,8 +24,6 @@ const SearchBar = () => {
   });
 
   const handleSearch = async (searchTerm) => {
-    // setInputVal(searchTerm);
-
     if (searchTerm == "") {
       dispatch(searchedUsersInfo(null));
     }
@@ -40,8 +38,6 @@ const SearchBar = () => {
         const response = await axios.get(url);
 
         dispatch(searchedUsersInfo(response.data));
-
-        console.log(response.data);
       } catch (error) {
         console.error("Error searching users:", error);
       }

@@ -1,12 +1,9 @@
-import React from "react";
-import { useEffect, useState } from "react";
-import Contacts from "../../../item";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  currentClickedContactChat,
+  setCurrentClickedContactChat,
+  signInUserTotalContactsData,
   setMateFound,
 } from "../../../redux/user/userSlice";
-import { signInUserTotalContactsData } from "../../../redux/user/userSlice";
 
 const ContactsList = () => {
   const dispatch = useDispatch();
@@ -16,7 +13,7 @@ const ContactsList = () => {
   );
 
   const handleProfileChat = (chat) => {
-    dispatch(currentClickedContactChat(chat));
+    dispatch(setCurrentClickedContactChat(chat));
     console.log(chat);
   };
 
@@ -27,7 +24,7 @@ const ContactsList = () => {
       (item) => item.user.email === user.email
     );
 
-    dispatch(currentClickedContactChat({ user: user, messages: null }));
+    dispatch(setCurrentClickedContactChat({ user: user, messages: null }));
 
     if (isNewObject) {
       dispatch(
@@ -41,8 +38,6 @@ const ContactsList = () => {
     setTimeout(() => {
       dispatch(setMateFound(false));
     }, 0);
-
-    console.log("done");
   };
 
   return (
@@ -65,7 +60,7 @@ const ContactsList = () => {
             );
           })}
 
-        {currentUserTotalContactsData.length > 0 &&
+        {currentUserTotalContactsData &&
           currentUserTotalContactsData.map((chat, index) => {
             const sortedMessages = chat.messages
               ? [...chat.messages].sort(

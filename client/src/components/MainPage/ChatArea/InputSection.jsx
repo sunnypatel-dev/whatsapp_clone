@@ -1,45 +1,84 @@
-import React from "react";
-import { useEffect, useState } from "react";
-import Contacts from "../../../item";
-import { useSelector } from "react-redux";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import { io } from "socket.io-client";
+import {
+  signInUserTotalContactsData,
+  setCurrentClickedContactChat,
+} from "../../../redux/user/userSlice";
 
 const InputSection = () => {
-  const { currentUser, currentClickedContactChat } = useSelector(
-    (state) => state.user
-  );
+  const socket = io("http://localhost:8000");
+
+  const dispatch = useDispatch();
+
+  const {
+    currentUser,
+    currentClickedContactChat,
+    currentUserTotalContactsData,
+  } = useSelector((state) => state.user);
 
   const [messageInput, setMessageInput] = useState("");
 
-  const handleKeyDown = (event) => {
-    if (event.key === "Enter") {
-      event.preventDefault(); // Prevents the default behavior of the Enter key (e.g., new line in a textarea)
+  const handleKeyDown = async (event) => {
+    if (event.key !== "Enter") {
+      return;
+    }
 
-      // Add your Axios POST request here
-      const senderEmail = currentUser.email;
-      if (currentClickedContactChat.user.email) {
-        const receiverEmail = currentClickedContactChat.user.email; // Replace with actual receiver email
-        // Replace with actual sender email
+    event.preventDefault();
 
-        axios
-          .post("http://localhost:8000/api/chat/send/messages", {
-            senderEmail,
-            receiverEmail,
-            messageType: "text", // Replace with the actual message type
-            content: messageInput,
-          })
-          .then((response) => {
-            // Handle the response as needed
-            console.log("Message sent successfully:", response.data);
-          })
-          .catch((error) => {
-            // Handle errors
-            console.error("Error sending message:", error);
-          });
+    const senderEmail = currentUser.email;
+    const receiverEmail = currentClickedContactChat.user.email;
 
-        // Clear the input field after sending the message
-        setMessageInput("");
-      }
+    if (!receiverEmail) {
+      return;
+    }
+
+    try {
+      // Make the Axios POST request
+      const response = await axios.post(
+        "http://localhost:8000/api/chat/send/messages",
+        {
+          senderEmail,
+          receiverEmail,
+          messageType: "text",
+          content: messageInput,
+        }
+      );
+
+      // Handle the response as needed
+      console.log("Message sent successfully:", response.data);
+
+      // Emit a socket event to fetch messages
+      socket.emit("fetchMessages", senderEmail);
+
+      // Listen for the server's response
+      socket.once("UserDetail", (messagesWithUsers) => {
+        console.log(messagesWithUsers);
+        // Handle the socket response
+
+        dispatch(signInUserTotalContactsData(messagesWithUsers));
+
+        // Find the entry in messagesWithUsers for the specified receiver email
+        const receiverEntry = messagesWithUsers.find(
+          (entry) => entry.user.email === receiverEmail
+        );
+
+        if (receiverEntry) {
+          // Extract user and messages
+          const { user, messages } = receiverEntry;
+
+          // Dispatch the user and messages for the specified receiver email
+          dispatch(setCurrentClickedContactChat({ user, messages }));
+        } else {
+          console.error(`No entry found for receiver email: ${receiverEmail}`);
+        }
+      });
+
+      setMessageInput("");
+    } catch (error) {
+      // Handle errors
+      console.error("Error sending message:", error);
     }
   };
 

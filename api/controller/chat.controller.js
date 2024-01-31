@@ -98,7 +98,7 @@ export const fetchMessages = async (req, res) => {
 
     if (!userChat) {
       // If the chat document doesn't exist, you may want to handle this case
-      return res.status(200).json({ message: "ok" });
+      return res.status(200).json({ message: "dose not exist" });
       // res.status(404).json({ message: "User chat not found" });
     } else {
       // Extract messages from the user's chat

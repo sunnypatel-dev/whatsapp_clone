@@ -1,8 +1,4 @@
-import React from "react";
-import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import axios from "axios";
-import Contacts from "../../../item";
 
 const ChatAreaHead = () => {
   const { currentClickedContactChat } = useSelector((state) => state.user);

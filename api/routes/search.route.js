@@ -24,8 +24,6 @@ router.get("/search-mate", async (req, res) => {
     console.error("Error searching users:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
-
-  // res.status(200).json({ message: "good work my son" });
 });
 
 export default router;

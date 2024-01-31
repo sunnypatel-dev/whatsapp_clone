@@ -88,7 +88,6 @@ const ChatSpace = () => {
                 );
               }
 
-              // It's good practice to provide a default return
               return null;
             })
         : null}
