@@ -4,7 +4,7 @@ const ChatAreaHead = () => {
   const { currentClickedContactChat } = useSelector((state) => state.user);
 
   return (
-    <div className="contact_user_option">
+    <div id="current-clicked-user">
       <div className="flex items-center pl-3 gap-3">
         {currentClickedContactChat != null && (
           <img src={currentClickedContactChat.user.profilePicture} />
@@ -20,7 +20,7 @@ const ChatAreaHead = () => {
           </p>
         </span>
       </div>
-      <div className="pr-7">
+      <div id="other-icon" className="pr-7">
         <ul className="flex flex-row-reverse gap-5">
           <li>
             <svg

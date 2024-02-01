@@ -6,8 +6,8 @@ const MainPage = () => {
   return (
     <>
       <GreenWrapper />
-      <div id="chatwindow" className="">
-        <div id="chat-cols">
+      <div id="chat-window" className="">
+        <div id="window-row">
           <Index />
         </div>
       </div>

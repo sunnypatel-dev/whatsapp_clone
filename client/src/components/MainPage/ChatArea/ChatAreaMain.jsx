@@ -5,7 +5,7 @@ import InputSection from "./InputSection";
 
 const ChatAreaMain = () => {
   return (
-    <div className="col-2">
+    <div id="column-2">
       <ChatAreaHead />
       <ChatSpace />
       <InputSection />

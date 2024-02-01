@@ -4,10 +4,10 @@ const SidebarHead = () => {
   const { currentUser } = useSelector((state) => state.user);
 
   return (
-    <div id="user_options">
-      <ul className="default-user">
+    <div id="sidebar-head">
+      <ul id="user-profile-icon">
         {currentUser ? (
-          <li className="flex items-center">
+          <li>
             {" "}
             <img
               src={currentUser.profilePicture}
@@ -16,7 +16,7 @@ const SidebarHead = () => {
               width="40"
               style={{ borderRadius: "100%" }}
             />
-            {currentUser.username}
+            {/* {currentUser.username} */}
           </li>
         ) : (
           <li>
@@ -36,7 +36,7 @@ const SidebarHead = () => {
           </li>
         )}
       </ul>
-      <ul className="menu_icons">
+      <ul id="five-icons">
         <li>
           <svg
             viewBox="0 0 24 24"

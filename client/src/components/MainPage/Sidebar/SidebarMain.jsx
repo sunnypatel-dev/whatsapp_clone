@@ -9,7 +9,7 @@ import ContactsList from "./ContactsList";
 
 const SidebarMain = ({ newMateFound }) => {
   return (
-    <div className="col-1">
+    <div id="column-1">
       {/* Sidebar Head  */}
 
       <SidebarHead />

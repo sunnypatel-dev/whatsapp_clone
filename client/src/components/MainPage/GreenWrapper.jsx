@@ -2,8 +2,8 @@ import React from "react";
 
 const GreenWrapper = () => {
   return (
-    <div id="header-before">
-      <div className="chat-window-wrapper"></div>
+    <div id="green-wrapper-main">
+      <div></div>
     </div>
   );
 };

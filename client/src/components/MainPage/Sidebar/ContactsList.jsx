@@ -41,8 +41,8 @@ const ContactsList = () => {
   };
 
   return (
-    <div id="Contact_List">
-      <div id="c1" className="list">
+    <div id="contacts-list-container" i>
+      <div id="actual-list">
         {searchedUsersInfo &&
           searchedUsersInfo.map((user, index) => {
             return (
@@ -78,9 +78,10 @@ const ContactsList = () => {
                     />
                   </span>
                 </li>
-                <li id="content">
-                  <span className="title_time">
+                <li id="middle-object">
+                  <span id="title-n-time">
                     <h2>{chat.user.username}</h2>
+
                     {sortedMessages.length > 0 ? (
                       <>
                         <h4 className="text-xs font-semibold">
@@ -96,17 +97,15 @@ const ContactsList = () => {
                       <p>empty</p>
                     )}
                   </span>
-                  <span className="message_notification">
+                  <span id="last-chat-n-notification">
                     {sortedMessages.length > 0 ? (
                       <>
-                        <div>
-                          <h2>{sortedMessages[0].content}</h2>
-                        </div>
+                        <h3>{sortedMessages[0].content}</h3>
                       </>
                     ) : (
                       <p>No messages available</p>
                     )}
-                    <div id="notificatoin_">
+                    <div id="notificatoin-n-hoverdown">
                       <svg
                         viewBox="0 0 19 20"
                         height="20"

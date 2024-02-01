@@ -6,7 +6,10 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon api/server.js",
-    "start": "node api/server.js"
+    "start": "node api/server.js",
+    "install-client": "npm install --prefix client",
+    "build-client": "npm run build --prefix client",
+    "build": "npm install && npm run install-client && npm run build-client"
   },
   "author": "Sunny Patel",
   "license": "ISC",

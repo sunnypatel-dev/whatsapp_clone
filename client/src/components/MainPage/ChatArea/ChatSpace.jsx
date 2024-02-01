@@ -4,7 +4,7 @@ const ChatSpace = () => {
   const { currentClickedContactChat } = useSelector((state) => state.user);
 
   return (
-    <div id="Main_chat_field" className="">
+    <div id="chat-display-area" className="">
       {currentClickedContactChat != null &&
       currentClickedContactChat.messages != null
         ? [...currentClickedContactChat.messages]

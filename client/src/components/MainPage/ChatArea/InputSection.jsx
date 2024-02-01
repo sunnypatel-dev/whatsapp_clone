@@ -83,37 +83,85 @@ const InputSection = () => {
   };
 
   return (
-    <div id="Typing_area" className="">
-      <ul className="">
-        <li>
-          <span data-icon="attach-menu-plus" class="">
-            <svg
-              viewBox="0 0 24 24"
-              height="24"
-              width="24"
-              preserveAspectRatio="xMidYMid meet"
-              class=""
-              fill="none"
-            >
-              <use xlinkHref="/sprite.svg#attach-icon" />
-            </svg>
+    <div id="chat-input-box">
+      <div id="attach-icon">
+        <svg
+          viewBox="0 0 24 24"
+          height="24"
+          width="24"
+          preserveAspectRatio="xMidYMid meet"
+          class=""
+          fill="none"
+        >
+          <use xlinkHref="/sprite.svg#attach-icon" />
+        </svg>
+      </div>
+      <div id="smiley">
+        <svg
+          viewBox="0 0 24 24"
+          height="24"
+          width="24"
+          preserveAspectRatio="xMidYMid meet"
+          class=""
+          version="1.1"
+          x="0px"
+          y="0px"
+          enable-background="new 0 0 24 24"
+        >
+          <use xlinkHref="/sprite.svg#smiley-icon" />
+        </svg>
+      </div>
+      <input
+        type="text"
+        value={messageInput}
+        onChange={(e) => setMessageInput(e.target.value)}
+        onKeyDown={handleKeyDown}
+        placeholder="Type your message..."
+      />
+      <div id="mic-msg">
+        <svg
+          viewBox="0 0 24 24"
+          height="24"
+          width="24"
+          preserveAspectRatio="xMidYMid meet"
+          class=""
+          version="1.1"
+          x="0px"
+          y="0px"
+          enable-background="new 0 0 24 24"
+        >
+          <use xlinkHref="/sprite.svg#send-icon" />
+        </svg>
+        {/* <svg
+          viewBox="0 0 24 24"
+          height="24"
+          width="24"
+          preserveAspectRatio="xMidYMid meet"
+          class=""
+          version="1.1"
+          x="0px"
+          y="0px"
+          enable-background="new 0 0 24 24"
+        >
+          <use xlinkHref="/sprite.svg#mic-icon" />
+        </svg> */}
+      </div>
+    </div>
+  );
+};
+
+export default InputSection;
+
+{
+  /* <ul>
+        <li id="attach-icon">
+          <span data-icon="attach-menu-plus">
+            
           </span>
         </li>
         <li>
           <span id="smiley" data-icon="smiley" class="">
-            <svg
-              viewBox="0 0 24 24"
-              height="24"
-              width="24"
-              preserveAspectRatio="xMidYMid meet"
-              class=""
-              version="1.1"
-              x="0px"
-              y="0px"
-              enable-background="new 0 0 24 24"
-            >
-              <use xlinkHref="/sprite.svg#smiley-icon" />
-            </svg>
+           
           </span>
           <input
             type="text"
@@ -126,43 +174,14 @@ const InputSection = () => {
 
         {/* <li>
     <span data-icon="send" class="">
-      <svg
-        viewBox="0 0 24 24"
-        height="24"
-        width="24"
-        preserveAspectRatio="xMidYMid meet"
-        class=""
-        version="1.1"
-        x="0px"
-        y="0px"
-        enable-background="new 0 0 24 24"
-      >
-        
-      <use xlinkHref="/sprite.svg#send-icon" />
-      </svg>
+     
     </span>
   </li>
-   */}
-        <li>
-          <span data-icon="ptt" class="">
-            <svg
-              viewBox="0 0 24 24"
-              height="24"
-              width="24"
-              preserveAspectRatio="xMidYMid meet"
-              class=""
-              version="1.1"
-              x="0px"
-              y="0px"
-              enable-background="new 0 0 24 24"
-            >
-              <use xlinkHref="/sprite.svg#mic-icon" />
-            </svg>
-          </span>
-        </li>
-      </ul>
-    </div>
-  );
-};
-
-export default InputSection;
+  //  */
+}
+//       <li id="mic-msg">
+//         <span data-icon="ptt" class="">
+//
+//         </span>
+//       </li>
+//     </ul> */}

@@ -47,8 +47,8 @@ const SearchBar = () => {
   };
 
   return (
-    <div id="search_contacts">
-      <div id="input_container">
+    <div id="search-contacts">
+      <div id="input-container">
         <span id="back_icon" data-icon="back" class="">
           <svg
             viewBox="0 0 24 24"
